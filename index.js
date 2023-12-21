@@ -55,16 +55,17 @@ app.post('/add-task', async (req, res) => {
 
     const newTask = req.body;
 
-    console.log(newTask)
+    // console.log(newTask)
     const result = await taskCollection.insertOne({ ...newTask });
     res.json({ result });
 
 })
 
 
-app.get('/get-tasks', async (req, res) => {
-
-    const result = await taskCollection.find().toArray();
+app.get('/get-tasks/:email', async (req, res) => {
+    
+    const {email} = req.params;
+    const result = await taskCollection.find({email}).toArray();
     // console.log(result)
     res.json({ result });
 
@@ -81,10 +82,24 @@ app.put('/update-task-status', async (req, res) => {
     };
 
     const result = await taskCollection.findOneAndUpdate(query, update);
-    // console.log(update)
+
     res.json({ result });
 
 })
+
+app.delete('/delete-task/:id', async (req, res) => {
+
+    const { id } = req.params;
+
+    const query = { _id: new ObjectId(id) }
+
+
+    const result = await taskCollection.findOneAndDelete(query);
+
+    res.json({ result });
+
+})
+
 
 
 app.listen(port, () => {
