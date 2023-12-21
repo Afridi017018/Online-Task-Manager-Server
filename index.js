@@ -51,7 +51,15 @@ app.get("/", (req, res) => {
 const taskCollection = client.db("task-manager").collection("tasks");
 // const cartCollection = client.db("brand-shop").collection("cart");
 
+app.post('/add-task', async (req, res) => {
 
+    const newTask = req.body;
+
+    console.log(newTask)
+    const result = await taskCollection.insertOne({ ...newTask });
+    res.json({ result });
+
+})
 
 
 
