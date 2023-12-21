@@ -62,6 +62,13 @@ app.post('/add-task', async (req, res) => {
 })
 
 
+app.get('/get-tasks', async (req, res) => {
+
+    const result = await taskCollection.find().toArray();
+    // console.log(result)
+    res.json({ result });
+
+})
 
 
 app.listen(port, () => {
