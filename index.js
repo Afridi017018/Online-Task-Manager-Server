@@ -70,6 +70,22 @@ app.get('/get-tasks', async (req, res) => {
 
 })
 
+app.put('/update-task-status', async (req, res) => {
+    const { id, status } = req.body;
+
+    const query = { _id: new ObjectId(id) }
+    const update = {
+        $set: {
+            status
+        },
+    };
+
+    const result = await taskCollection.findOneAndUpdate(query, update);
+    // console.log(update)
+    res.json({ result });
+
+})
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: http://localhost:${port}`)
