@@ -102,6 +102,40 @@ app.delete('/delete-task/:id', async (req, res) => {
 
 
 
+app.get('/get-single-task/:id', async (req, res) => {
+    
+    const {id} = req.params;
+    const query = { _id: new ObjectId(id) }
+    const result = await taskCollection.findOne(query)
+    // console.log(result)
+    res.json({ result });
+
+})
+
+
+
+app.put('/update-task', async (req, res) => {
+    const { id, title, description, deadline, priority } = req.body;
+
+    // console.log(req.body)
+
+    const query = { _id: new ObjectId(id) }
+    const update = {
+        $set: {
+            title,
+            description,
+            deadline,
+            priority,
+        },
+    };
+
+    const result = await taskCollection.findOneAndUpdate(query, update);
+
+    res.json({ result });
+
+})
+
+
 app.listen(port, () => {
     console.log(`Server is running on port: http://localhost:${port}`)
 })
